@@ -5,9 +5,9 @@ from setuptools import setup, find_packages
 version = __import__('cms_redirects').__version__
 
 setup(
-    name="django-cms-redirects",
+    name="djangocms-redirects",
     version=version,
-    url='http://github.com/salvaorenick/django-cms-redirects',
+    url='http://github.com/vovanbo/djangocms-redirects',
     license='BSD',
     platforms=['OS Independent'],
     description="",
