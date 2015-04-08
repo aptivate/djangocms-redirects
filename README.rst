@@ -21,16 +21,16 @@ Add ``cms_redirects`` to your installed apps and ``syncdb``.
 
 Your installed apps should look something like this:
 ::
-	INSTALLED_APPS = (
-	    'django.contrib.auth',
-	    'django.contrib.contenttypes',
-	    'django.contrib.sessions',
-	    'django.contrib.sites',
-	    'django.contrib.messages',
-	    'django.contrib.admin',
-	    'cms',
-	    'cms_redirects',
-	)
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        'django.contrib.messages',
+        'django.contrib.admin',
+        'cms',
+        'cms_redirects',
+    )
 
 Finally, add 'cms_redirects.middleware.RedirectFallbackMiddleware' to your MIDDLEWARE_CLASSES setting.
 
