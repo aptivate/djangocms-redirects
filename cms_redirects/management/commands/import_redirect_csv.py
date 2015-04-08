@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import os
 import csv
 from optparse import make_option
@@ -29,7 +30,7 @@ class Command(BaseCommand):
             raise CommandError("File not found, invalid path: %s" % csv_path)
         csv_file = open(csv_path, "rb")
         reader = csv.reader(csv_file)
-        header_row = reader.next()
+        header_row = next(reader)
         if header_row != ["Old Url","New Url","Response Code"]:
             raise CommandError("CSV file is missing the correct header row.  Should be Old Url, New Url and Response Code")
         reader = csv.DictReader(csv_file, header_row)

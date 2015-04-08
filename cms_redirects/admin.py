@@ -1,4 +1,5 @@
 """Admin setup for redirects."""
+from __future__ import absolute_import
 from django.contrib import admin
 from cms_redirects.models import CMSRedirect
 

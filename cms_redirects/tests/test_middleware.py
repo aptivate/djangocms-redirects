@@ -1,5 +1,11 @@
 """Tests for redirect middleware."""
-from urlparse import urlparse
+from __future__ import absolute_import
+
+import sys
+if sys.version_info >= (3, 0):
+    from urllib.parse import urlparse
+if sys.version_info < (3, 0) and sys.version_info >= (2, 5):
+    from urlparse import urlparse
 
 from cms_redirects.models import CMSRedirect
 from cms.api import create_page

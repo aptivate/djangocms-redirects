@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import StringIO
 import csv
 import datetime
@@ -9,6 +11,7 @@ from django.conf import settings
 from django.utils import simplejson
 
 from optparse import make_option
+import six
 
 class Command(BaseCommand):
     can_import_settings = True
@@ -67,14 +70,14 @@ class Command(BaseCommand):
             num_months = int(options["num_analytics_months"])
             start_date = end_date - datetime.timedelta(num_months*365/12)
             data = account.get_data(start_date=start_date, end_date=end_date, dimensions=['pagepath'], metrics=['visits'])
-            sorted_data = sorted(data.dict.iteritems(), key=operator.itemgetter(1), reverse=True)
+            sorted_data = sorted(six.iteritems(data.dict), key=operator.itemgetter(1), reverse=True)
             for url, visits in sorted_data:
                 writer.writerow([csv_safe(url),'',''])
                 
-        print output.getvalue()
+        print(output.getvalue())
         
 def csv_safe(s):
-    if isinstance(s,basestring):
+    if isinstance(s,six.string_types):
         return s.encode("utf-8")
     else:
         return s
