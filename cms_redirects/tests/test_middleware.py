@@ -89,37 +89,69 @@ class RedirectMiddlewareTest(TestCase):
 
     def test_cms_redirect_to_page_empty_query(self):
         """Should redirect to the correct page without any querystring."""
-        page = create_page(
+        root_page = create_page(
             title='A page somewhere',
             template='template_1.html',
             language='en',
-            slug='a-page-somewhere'
+            slug='home'
         )
-        cmsredirect = CMSRedirect.objects.create(
-            page_id=page.pk,
+        child_page = create_page(
+            title='Child page somewhere',
+            template='template_1.html',
+            language='en',
+            slug='child-page-somewhere',
+            parent=root_page
+        )
+        cmsredirect_to_root = CMSRedirect.objects.create(
+            page_id=root_page.pk,
             site_id=1,
-            old_path='/page/elsewhere/',
+            old_path='/page/elsewhere-to-root/',
         )
-        result = self.middleware.cms_redirect(cmsredirect, '')
+        cmsredirect_to_child = CMSRedirect.objects.create(
+            page_id=child_page.pk,
+            site_id=1,
+            old_path='/page/elsewhere-to-child/',
+        )
+
+        result = self.middleware.cms_redirect(cmsredirect_to_root, '')
+        self.assertEqual(result['Location'], '/en/')
+
+        result = self.middleware.cms_redirect(cmsredirect_to_child, '')
         self.assertEqual(
-            result['Location'], '/en/a-page-somewhere/')
+            result['Location'], '/en/child-page-somewhere/')
 
     def test_cms_redirect_to_page_with_query(self):
         """Should redirect to the correct page and keep querystring."""
-        page = create_page(
+        root_page = create_page(
             title='A page somewhere',
             template='template_1.html',
             language='en',
-            slug='a-page-somewhere'
+            slug='home'
         )
-        cmsredirect = CMSRedirect.objects.create(
-            page=page,
+        child_page = create_page(
+            title='Child page somewhere',
+            template='template_1.html',
+            language='en',
+            slug='child-page-somewhere',
+            parent=root_page
+        )
+        cmsredirect_to_root = CMSRedirect.objects.create(
+            page=root_page,
             site_id=1,
-            old_path='/page/elsewhere/',
+            old_path='/page/elsewhere-to-root/',
         )
-        result = self.middleware.cms_redirect(cmsredirect, 'a=b')
+        cmsredirect_to_child = CMSRedirect.objects.create(
+            page=child_page,
+            site_id=1,
+            old_path='/page/elsewhere-to-child/',
+        )
+
+        result = self.middleware.cms_redirect(cmsredirect_to_root, 'a=b')
+        self.assertEqual(result['Location'], '/en/?a=b')
+
+        result = self.middleware.cms_redirect(cmsredirect_to_child, 'a=b')
         self.assertEqual(
-            result['Location'], '/en/a-page-somewhere/?a=b')
+            result['Location'], '/en/child-page-somewhere/?a=b')
 
     def test_cms_redirect_to_new_path(self):
         """Should redirect to the correct path and keep querystring."""
