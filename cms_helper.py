@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Django settings file for testing."""
 import os
 
@@ -90,3 +92,9 @@ HELPER_SETTINGS = dict(
     }
 )
 
+def run():
+    from djangocms_helper import runner
+    runner.cms('cms_redirects')
+
+if __name__ == "__main__":
+    run()
