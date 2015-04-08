@@ -11,27 +11,27 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
-    'django',
     'django.contrib.sites',
+    'django.contrib.messages',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'mptt',
     'cms',
+    'mptt',
     'menus',
-    'south',
     'sekizai',
     'cms_redirects',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.doc.XViewMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
     'cms_redirects.middleware.RedirectMiddleware',
@@ -39,12 +39,13 @@ MIDDLEWARE_CLASSES = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
-    'cms.context_processors.media',
     'sekizai.context_processors.sekizai',
+    'cms.context_processors.cms_settings',
 )
 
 TEMPLATE_DIRS = (
@@ -66,11 +67,25 @@ LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 SECRET_KEY = 'abcde12345'
-ROOT_URLCONF = 'testurls'
+ROOT_URLCONF = 'test_urls'
 
 STATIC_URL = '/static/'
 
-SOUTH_TESTS_MIGRATE = False
-SKIP_SOUTH_TESTS = True
-
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+MIGRATION_MODULES = {
+    'cms': 'cms.migrations_django',
+    'menus': 'menus.migrations_django',
+
+    # Add also the following modules if you're using these plugins:
+    'djangocms_file': 'djangocms_file.migrations_django',
+    'djangocms_flash': 'djangocms_flash.migrations_django',
+    'djangocms_googlemap': 'djangocms_googlemap.migrations_django',
+    'djangocms_inherit': 'djangocms_inherit.migrations_django',
+    'djangocms_link': 'djangocms_link.migrations_django',
+    'djangocms_picture': 'djangocms_picture.migrations_django',
+    'djangocms_snippet': 'djangocms_snippet.migrations_django',
+    'djangocms_teaser': 'djangocms_teaser.migrations_django',
+    'djangocms_video': 'djangocms_video.migrations_django',
+    'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
+}
