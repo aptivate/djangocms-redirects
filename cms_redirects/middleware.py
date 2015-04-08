@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 
 import sys
+
 if sys.version_info >= (3, 0):
     from urllib.parse import urlparse
 if sys.version_info < (3, 0) and sys.version_info >= (2, 5):
@@ -14,6 +15,7 @@ from django.conf import settings
 
 class RedirectMiddleware(object):
     """Middleware for handling redirects."""
+
     def get_possible_paths(self, parsed_path):
         """Get a list of possible url paths to look for."""
         # Get the usable url parts

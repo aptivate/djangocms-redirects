@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # encoding: utf-8
 import datetime
 from south.db import db
@@ -8,13 +7,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'CMSRedirect.response_code'
         db.add_column('cms_redirects_cmsredirect', 'response_code', self.gf('django.db.models.fields.CharField')(default='', max_length=3, blank=True), keep_default=False)
 
 
     def backwards(self, orm):
-        
+
         # Deleting field 'CMSRedirect.response_code'
         db.delete_column('cms_redirects_cmsredirect', 'response_code')
 

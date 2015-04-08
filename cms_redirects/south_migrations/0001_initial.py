@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # encoding: utf-8
 import datetime
 from south.db import db
@@ -8,7 +7,7 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'CMSRedirect'
         db.create_table('cms_redirects_cmsredirect', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -24,7 +23,7 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'CMSRedirect', fields ['site', 'old_path']
         db.delete_unique('cms_redirects_cmsredirect', ['site_id', 'old_path'])
 

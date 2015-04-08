@@ -1,6 +1,8 @@
 """Admin setup for redirects."""
 from __future__ import absolute_import
+
 from django.contrib import admin
+
 from cms_redirects.models import CMSRedirect
 
 
@@ -21,5 +23,6 @@ class CMSRedirectAdmin(admin.ModelAdmin):
         ('Source', {'fields': ('site', 'old_path')}),
         ('Destination', {'fields': ('new_path', 'page', 'response_code')})
     ]
+
 
 admin.site.register(CMSRedirect, CMSRedirectAdmin)

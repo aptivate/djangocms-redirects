@@ -12,7 +12,6 @@ RESPONSE_CODES = (
     ('302', '302')
 )
 
-
 DEFAULT_REDIRECT_RESPONSE_CODE = getattr(
     settings, 'DEFAULT_REDIRECT_RESPONSE_CODE', '301')
 
@@ -49,27 +48,29 @@ class CMSRedirect(models.Model):
                     " is specified. If no destination is specified"
                     " the response code will be 410.")
     )
-    
+
     def page_site(self):
         """If this redirects to a page, return the name of the site."""
         if self.page:
             return u'%s' % self.page.site
         return u''
+
     page_site.short_description = "Page Site"
-    
+
     def actual_response_code(self):
         """Returns the response code. Returns 410 if no redirect is defined."""
         if self.page or self.new_path:
             return self.response_code
         return u'410'
+
     actual_response_code.short_description = "Response Code"
-    
+
     class Meta:
         verbose_name = _('CMS Redirect')
         verbose_name_plural = _('CMS Redirects')
-        unique_together=(('site', 'old_path'),)
+        unique_together = (('site', 'old_path'),)
         ordering = ('old_path',)
-    
+
     def __unicode__(self):
         """Unicode representation of this redirect."""
         return "%s ---> %s" % (self.old_path, self.new_path)
