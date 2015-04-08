@@ -16,8 +16,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         'setuptools',
-        'django <1.6',
-        'django-cms <3'
+        'django>=1.7,<1.8',
+        'django-cms>=3,<3.1'
     ],
     include_package_data=True,
     zip_safe=False,
@@ -38,6 +38,5 @@ setup(
     tests_require=[
         'django-nose'
     ],
-    test_suite='django',
-    test_loader='run_tests:RunTests'
+    test_suite='cms_helper.run',
 )
