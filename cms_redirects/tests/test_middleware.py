@@ -44,6 +44,37 @@ class RedirectMiddlewareTest(TestCase):
         result = self.middleware.get_possible_paths(path)
         self.assertEqual(result, ['/some/path'])
 
+    @override_settings(USE_I18N=False)
+    def test_get_possible_paths_use_i18n_off(self):
+        """Should return just path with trailing slash."""
+        result = self.middleware.get_possible_paths(
+            urlparse('http://localhost/en/path'))
+        self.assertEqual(result, ['/en/path'])
+
+    @override_settings(USE_I18N=True)
+    def test_get_possible_paths_use_i18n_on(self):
+        """Should return paths with and without appended slashes."""
+        result = self.middleware.get_possible_paths(
+            urlparse('http://localhost/en/path'))
+        self.assertEqual(result, ['/en/path', '/path'])
+
+    @override_settings(USE_I18N=True)
+    def test_get_possible_paths_use_i18n_on_with_no_i18n_prefix(self):
+        """Should return just path without appended slash."""
+        path = urlparse('http://localhost/some/path')
+        result = self.middleware.get_possible_paths(path)
+        self.assertEqual(result, ['/some/path'])
+
+    @override_settings(APPEND_SLASH=True, USE_I18N=True)
+    def test_get_possible_paths_append_slash_and_use_i18n_on(self):
+        """Should return just path without appended slash."""
+        path = urlparse('http://localhost/en/some/path/')
+        result = self.middleware.get_possible_paths(path)
+        self.assertEqual(
+            result,
+            ['/en/some/path/' '/en/some/path' '/some/path/' '/some/path']
+        )
+
     def test_get_query(self):
         """Should return the query string prepended by a ?."""
         path = urlparse('http://localhost/some/path/?a=b&c=dee')
